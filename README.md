@@ -12,6 +12,12 @@ has been rebuilt here as a standalone, hardened, runnable-by-a-stranger service.
 The full write-up is in
 [`My 10x Solution - Balaji Thukuntala.md`](My%2010x%20Solution%20-%20Balaji%20Thukuntala.md).
 
+![demo](docs/demo.gif)
+
+_The 5-minute demo path, against the live Gemini API: market levels, AI
+commentary, a watchlist, personalised coaching, a generated PDF digest, and the
+AI cost log._
+
 ## What it does
 
 - **`GET /market/pulse`** - current NIFTY 50, SENSEX, gold, USD/INR, politely
@@ -29,6 +35,13 @@ The full write-up is in
 - **`GET /usage`** - this user's AI spend from the cost log, against the quota.
 
 ## Run it
+
+### Deploy (free tier, no card)
+
+A [`render.yaml`](render.yaml) blueprint is included. On the Render dashboard:
+New -> Blueprint -> pick this repo, then set `GEMINI_API_KEY` in the service's
+Environment tab. The free tier has no disk, so the SQLite file is ephemeral and
+`SEED_ON_START=true` reseeds the demo watchlist on each cold start.
 
 ### Option A: Docker (one command)
 

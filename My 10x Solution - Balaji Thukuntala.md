@@ -89,7 +89,9 @@ uv run uvicorn app.main:app --port 8000
 `DEV_AUTH` is on by default, so a stranger needs no Firebase project: the demo
 user's bearer token is `dev-demo-token`. A free Gemini key (no card) enables the
 real AI; without one, `LLM_STUB=true` returns placeholders and every other part
-still works. Tests: `uv run pytest` (10, no network).
+still works. Tests: `uv run pytest` (10, no network). A `render.yaml` blueprint
+deploys it to a free hosting tier. The README opens with a terminal-cast GIF of
+the full demo path against the live Gemini API.
 
 ## 6. Measuring the 10x
 
