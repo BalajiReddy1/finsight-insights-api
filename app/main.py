@@ -15,15 +15,19 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.config import ALLOWED_ORIGINS
+from app.config import ALLOWED_ORIGINS, SCHEDULER_ENABLED
 from app.db import init_db
-from app.routes import admin, coach, learn, market, watchlist
+from app.jobs import start_scheduler, stop_scheduler
+from app.routes import admin, coach, learn, market, reports, watchlist
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
+    if SCHEDULER_ENABLED:
+        start_scheduler()
     yield
+    stop_scheduler()
 
 
 app = FastAPI(title="FinSight Insights API", version="1.0.0", lifespan=lifespan)
@@ -60,4 +64,5 @@ app.include_router(market.router)
 app.include_router(coach.router)
 app.include_router(learn.router)
 app.include_router(watchlist.router)
+app.include_router(reports.router)
 app.include_router(admin.router)
