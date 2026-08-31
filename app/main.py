@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import ALLOWED_ORIGINS
 from app.db import init_db
-from app.routes import market
+from app.routes import admin, coach, learn, market, watchlist
 
 
 @asynccontextmanager
@@ -57,3 +57,7 @@ def health():
 
 
 app.include_router(market.router)
+app.include_router(coach.router)
+app.include_router(learn.router)
+app.include_router(watchlist.router)
+app.include_router(admin.router)
