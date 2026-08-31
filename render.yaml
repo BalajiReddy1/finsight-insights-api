@@ -1,0 +1,42 @@
+# One-click deploy on Render's free tier (no credit card).
+#
+#   1. Push this repo to GitHub.
+#   2. Render dashboard -> New -> Blueprint -> pick this repo.
+#   3. Set GEMINI_API_KEY in the service's Environment tab (or leave LLM_STUB=true).
+#
+# The free tier has no persistent disk, so the SQLite file is ephemeral: it is
+# recreated and the demo watchlist reseeded on every cold start (the service
+# also spins down after 15 minutes idle). Nothing here needs to survive that -
+# the cost log and watchlist are per-demo, and the market data is fetched live.
+
+services:
+  - type: web
+    name: finsight-insights-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DEV_AUTH
+        value: "true"
+      - key: DEV_AUTH_TOKEN
+        value: dev-demo-token
+      - key: DEV_USER_ID
+        value: demo-user
+      - key: GEMINI_API_KEY
+        sync: false           # set this yourself in the dashboard
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+      - key: LLM_STUB
+        value: "false"
+      - key: AI_DAILY_QUOTA
+        value: "50"
+      - key: FINSIGHT_DB
+        value: /tmp/finsight.db
+      - key: REPORTS_DIR
+        value: /tmp/reports
+      - key: SCHEDULER_ENABLED
+        value: "true"
+      - key: SEED_ON_START
+        value: "true"
+      - key: CHROME_BIN
+        value: /usr/bin/chromium

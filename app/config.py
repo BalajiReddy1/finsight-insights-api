@@ -34,3 +34,6 @@ ALLOWED_ORIGINS = [
     if o.strip()
 ]
 SCHEDULER_ENABLED = os.environ.get("SCHEDULER_ENABLED", "true").lower() == "true"
+# On a host with no persistent disk (e.g. Render free tier) the SQLite file is
+# recreated on every cold start; SEED_ON_START reseeds the demo watchlist then.
+SEED_ON_START = os.environ.get("SEED_ON_START", "false").lower() == "true"

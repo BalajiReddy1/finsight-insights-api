@@ -15,7 +15,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.config import ALLOWED_ORIGINS, SCHEDULER_ENABLED
+from app.config import ALLOWED_ORIGINS, SCHEDULER_ENABLED, SEED_ON_START
 from app.db import init_db
 from app.jobs import start_scheduler, stop_scheduler
 from app.routes import admin, coach, learn, market, reports, watchlist
@@ -24,6 +24,10 @@ from app.routes import admin, coach, learn, market, reports, watchlist
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
+    if SEED_ON_START:
+        from app.seed import seed
+
+        seed()
     if SCHEDULER_ENABLED:
         start_scheduler()
     yield
