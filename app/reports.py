@@ -153,6 +153,8 @@ def render_pdf(html_str: str, out_path: Path) -> Path:
                 _chrome_bin(),
                 "--headless",
                 "--disable-gpu",
+                "--no-sandbox",              # required when running as root in a container
+                "--disable-dev-shm-usage",   # small /dev/shm in containers crashes Chromium
                 "--no-pdf-header-footer",
                 f"--print-to-pdf={out_path}",
                 html_file.as_uri(),

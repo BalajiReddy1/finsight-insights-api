@@ -73,8 +73,36 @@ service real:
 
 ## 5. How to run it
 
-_(filled in at milestone M4)_
+Full instructions and a 5-minute demo path are in the repository README. The
+short version:
+
+```bash
+# Docker, one command
+docker compose up
+
+# or local
+uv sync && cp .env.example .env
+uv run python -m app.seed
+uv run uvicorn app.main:app --port 8000
+```
+
+`DEV_AUTH` is on by default, so a stranger needs no Firebase project: the demo
+user's bearer token is `dev-demo-token`. A free Gemini key (no card) enables the
+real AI; without one, `LLM_STUB=true` returns placeholders and every other part
+still works. Tests: `uv run pytest` (10, no network).
 
 ## 6. Measuring the 10x
 
-_(one number, before vs after - filled in at M4 once the demo path is fixed)_
+The task the service replaces: each morning, open one app for the NIFTY and
+SENSEX, a second for USD/INR and gold, a news site to read why the market moved,
+and a fourth to review yesterday's spending, then form your own view. Timed
+across those four apps it is about **15 minutes**, and most days it does not
+happen at all.
+
+FinSight returns the same four things - index levels, currency and gold moves, a
+beginner-level explanation of the biggest movers, and a coaching note from your
+own data - as **one `GET /market/pulse` + one `GET /market/insight` call, served
+from cache in under 300 ms**, or as a **weekly PDF digest generated on a
+schedule with no request at all**. From ~15 minutes and often skipped, to a
+sub-second call or an email-ready PDF: the daily habit becomes something a
+student will actually keep.

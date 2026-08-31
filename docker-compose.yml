@@ -1,0 +1,22 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DEV_AUTH: "true"
+      DEV_AUTH_TOKEN: dev-demo-token
+      DEV_USER_ID: demo-user
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      LLM_STUB: ${LLM_STUB:-false}
+      AI_DAILY_QUOTA: "50"
+      FINSIGHT_DB: /data/finsight.db
+      REPORTS_DIR: /data/reports
+      SCHEDULER_ENABLED: "true"
+      CHROME_BIN: /usr/bin/chromium
+    volumes:
+      - finsight_data:/data
+
+volumes:
+  finsight_data:
