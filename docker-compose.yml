@@ -8,7 +8,7 @@ services:
       DEV_AUTH_TOKEN: dev-demo-token
       DEV_USER_ID: demo-user
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.6-flash}
       LLM_STUB: ${LLM_STUB:-false}
       AI_DAILY_QUOTA: "50"
       FINSIGHT_DB: /data/finsight.db

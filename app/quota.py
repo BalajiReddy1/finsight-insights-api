@@ -14,8 +14,12 @@ from app.db import connect
 from app.security import current_user
 
 
+def utc_today() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+
+
 def ai_calls_today(user_id: str) -> int:
-    today = datetime.date.today().isoformat()
+    today = utc_today()
     with connect() as conn:
         (count,) = conn.execute(
             "SELECT COUNT(*) FROM llm_calls WHERE user_id = ? AND day = ?",

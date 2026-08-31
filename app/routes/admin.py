@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from app.cache import cache
 from app.config import AI_DAILY_QUOTA
 from app.db import connect
-from app.quota import ai_calls_today
+from app.quota import ai_calls_today, utc_today
 from app.security import current_user
 
 router = APIRouter(tags=["admin"])
@@ -22,7 +22,9 @@ def cache_stats():
 def usage(user_id: str = Depends(current_user)):
     """This user's AI spend: today's count against the quota, and a 7-day
     breakdown from the cost log."""
-    since = (datetime.date.today() - datetime.timedelta(days=6)).isoformat()
+    since = (
+        datetime.datetime.now(datetime.timezone.utc).date() - datetime.timedelta(days=6)
+    ).isoformat()
     with connect() as conn:
         rows = conn.execute(
             "SELECT day, COUNT(*) AS calls, "

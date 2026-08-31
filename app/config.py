@@ -20,7 +20,7 @@ FIREBASE_PROJECT_ID = os.environ.get("FIREBASE_PROJECT_ID", "")
 # --- LLM (Gemini) ---
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 # Overridable without a code change: models get retired under you.
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 LLM_STUB = os.environ.get("LLM_STUB", "false").lower() == "true"
 LLM_TIMEOUT_SECONDS = float(os.environ.get("LLM_TIMEOUT_SECONDS", "30"))
 

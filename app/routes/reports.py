@@ -9,11 +9,10 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import FileResponse
 
-import datetime
-
 from app.cache import cache
 from app.db import connect
 from app.insight import STUB as INSIGHT_STUB
+from app.quota import utc_today
 from app.reports import generate_digest
 from app.security import current_user
 
@@ -35,7 +34,7 @@ def create_weekly_digest(response: Response, user_id: str = Depends(current_user
             "ORDER BY id DESC LIMIT 1",
             (user_id,),
         ).fetchone()
-    if row and row["day"] == datetime.date.today().isoformat():
+    if row and row["day"] == utc_today():
         response.status_code = 200
         return {"id": row["id"], "file": _link(row["id"]), "reused": True}
 

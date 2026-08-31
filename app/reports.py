@@ -59,7 +59,7 @@ def _watchlist_quotes(user_id: str) -> list[dict]:
 def build_digest_data(user_id: str, insight) -> dict:
     quotes, _ = fetch_quotes()
     return {
-        "generated": datetime.date.today().isoformat(),
+        "generated": datetime.datetime.now(datetime.timezone.utc).date().isoformat(),
         "pulse": [
             {
                 "name": q["name"],

@@ -14,6 +14,7 @@ import datetime
 import json
 import re
 import time
+from functools import lru_cache
 from typing import TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -35,7 +36,10 @@ class LLMError(Exception):
     """The model could not produce valid output after one repair attempt."""
 
 
+@lru_cache(maxsize=1)
 def _client():
+    """One client, held for the process. Building it per call let CPython GC
+    the temporary between `.models` and `.send`, closing its httpx client."""
     from google import genai
 
     if not config.GEMINI_API_KEY:
